@@ -3,21 +3,13 @@
 import { useState } from "react"
 import Image from "next/image"
 
-
 export default function Login(){
-  // vamos criar duas variáveis de estado para username e password   
-  // setUsername é uma função que altera o valor de username
-  // useState é um hook do ReactJS, cria e inicia a variável de estado
+
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  // hook do React Router DOM para navegar entre páginas
 
-  // função que será executada quando o formulário for submetido
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
-      // previne o comportamento padrão do formulário
       e.preventDefault()
-      // vamos verificar se usuário e senha estão corretos
-      // vamos conectar assincronamente no backend no endpoint /users?username=xxx
       const resp = await fetch(`http://localhost:3000/users?username=${username}`, {
           method: 'GET'
           })
