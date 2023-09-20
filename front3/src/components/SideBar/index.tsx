@@ -12,12 +12,12 @@ export function Sidebar(){
     <>
       <div className="flex flex-col gap-6 border-r border-r-zinc-100 px-5 py-8 bg-neutral-200">
         <nav className="space-y-0.5">
-          <NavItem title="Home" icon={Home}/>
-          <NavItem title="Cursos" icon={Folders}/>
-          <NavItem title="Módulos" icon={SquareStack}/>
-          <NavItem title="Aulas" icon={Book}/>
-          <NavItem title="Provas" icon={FileEdit}/>
-          <NavItem title="Users" icon={Users}/>
+          <NavItem title="Home" icon={Home} route="/patrimonio"/>
+          <NavItem title="Cursos" icon={Folders} route="/usuarios"/>
+          <NavItem title="Módulos" icon={SquareStack} route=""/>
+          <NavItem title="Aulas" icon={Book} route=""/>
+          <NavItem title="Provas" icon={FileEdit} route=""/>
+          <NavItem title="Users" icon={Users} route=""/>
         </nav>
       </div>
     </>
