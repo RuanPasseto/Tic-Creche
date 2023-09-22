@@ -1,0 +1,42 @@
+{
+  "patrimonios": [
+    {
+      "id": 1,
+      "nome_patrimonio": "Patrimônio 1",
+      "descricao": "Descrição do Patrimônio 1",
+      "historico_manutencao": "Histórico do Patrimônio 1",
+      "nr_serie": "12345",
+      "id_categoria": 1,
+      "id_local_patrimonio": 1
+    },
+    {
+      "id": 2,
+      "nome_patrimonio": "Patrimônio 2",
+      "descricao": "Descrição do Patrimônio 2",
+      "historico_manutencao": "Histórico do Patrimônio 2",
+      "nr_serie": "67890",
+      "id_categoria": 2,
+      "id_local_patrimonio": 2
+    }
+  ],
+  "categorias": [
+    {
+      "id": 1,
+      "nome_categoria": "Categoria 1"
+    },
+    {
+      "id": 2,
+      "nome_categoria": "Categoria 2"
+    }
+  ],
+  "locais_patrimonio": [
+    {
+      "id": 1,
+      "nome_local": "Local 1"
+    },
+    {
+      "id": 2,
+      "nome_local": "Local 2"
+    }
+  ]
+}

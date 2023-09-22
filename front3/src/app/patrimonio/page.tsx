@@ -3,12 +3,23 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 
+interface Patrimonios {
+  id: number;
+  nome_patrimonio: string;
+  descricao: string;
+  historico_manutencao: string;
+  nr_serie: string;
+  id_categoria: number;
+  id_local_patrimonio: number;
+}
+
 
 // Componente patrimonio
 function Patrimonio() {
-  const [patrimonios, setPatrimonios] = useState([]);
+  const [patrimonios, setPatrimonios] = useState<Patrimonios[]>([]);
   const [categorias, setCategorias] = useState([]);
   const [locaisPatrimonio, setLocaisPatrimonio] = useState([]);
+  const [patrimonioEmEdicao, setPatrimonioEmEdicao] = useState<Patrimonios | null>(null);
   const [patrimonioFormData, setPatrimonioFormData] = useState({
     nome_patrimonio: '',
     descricao: '',
@@ -18,6 +29,10 @@ function Patrimonio() {
     id_local_patrimonio: '',
   });
 
+  function atualizarPatrimonioEmEdicao(patrimonio: Patrimonios) {
+    setPatrimonioEmEdicao(patrimonio);
+  }
+
   useEffect(() => {
     carregarPatrimonios();
     carregarCategorias();
@@ -26,7 +41,7 @@ function Patrimonio() {
 
   async function carregarPatrimonios() {
     try {
-      const response = await fetch('http://localhost:3001/patrimony');
+      const response = await fetch('http://localhost:3001/patrimonios');
       if (response.ok) {
         const data = await response.json();
         setPatrimonios(data);
@@ -40,7 +55,7 @@ function Patrimonio() {
 
   async function carregarCategorias() {
     try {
-      const response = await fetch('http://localhost:3001/category');
+      const response = await fetch('http://localhost:3001/categorias');
       if (response.ok) {
         const data = await response.json();
         setCategorias(data);
@@ -54,7 +69,7 @@ function Patrimonio() {
 
   async function carregarLocaisPatrimonio() {
     try {
-      const response = await fetch('http://localhost:3001/local-patrimony');
+      const response = await fetch('http://localhost:3001/locais_patrimonio');
       if (response.ok) {
         const data = await response.json();
         setLocaisPatrimonio(data);
@@ -71,7 +86,7 @@ function Patrimonio() {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:3001/patrimony', {
+      const response = await fetch('http://localhost:3001/patrimonios', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -99,6 +114,44 @@ function Patrimonio() {
       console.error('Erro ao cadastrar patrimônio:', error);
     }
   }
+
+  function handleEditarPatrimonio(patrimonio: Patrimonios) {
+    setPatrimonioEmEdicao(patrimonio);
+    // Preencha os campos do formulário com os dados do patrimônio em edição
+    setPatrimonioFormData({
+      nome_patrimonio: patrimonio.nome_patrimonio,
+      descricao: patrimonio.descricao,
+      historico_manutencao: patrimonio.historico_manutencao,
+      nr_serie: patrimonio.nr_serie,
+      id_categoria: patrimonio.id_categoria.toString(), // Certifique-se de converter para string
+      id_local_patrimonio: patrimonio.id_local_patrimonio.toString(), // Idem aqui
+    });
+  }
+  
+  
+  async function excluirPatrimonio(id: number) {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`http://localhost:3001/patrimonios/${id}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      if (response.ok) {
+        alert('Patrimônio excluído com sucesso!');
+        carregarPatrimonios(); // Recarregar a lista de patrimônios após a exclusão.
+      } else {
+        const error = await response.json();
+        alert('Erro ao excluir patrimônio: ' + error.error);
+      }
+    } catch (error) {
+      console.error('Erro ao excluir patrimônio:', error);
+    }
+  }
+
+
 
   function handleChange(event: any) {
     const { name, value } = event.target;
@@ -134,7 +187,7 @@ function Patrimonio() {
         <div className=" " >
           <div className="flex items-center">
             <div className="col-md-8 justify-center">
-              <form id="patrimonioForm">
+              <form id="patrimonioForm" onSubmit={cadastrarPatrimonio}>
                 <div className="form-group justify-center flex flex-col">
                   <h3 className='text-3xl '>Cadastro de Patrimônio</h3>
                   <label htmlFor="nome_patrimonio">Nome do Patrimônio:</label>
@@ -199,26 +252,42 @@ function Patrimonio() {
             </div>
           </div>
           <div className="row mt-5 justify-content-center">
-            <div className="col-md-12">
-              <div className="table-responsive">
-                <table className="table">
-                  <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>Nome</th>
-                      <th>Descrição</th>
-                      <th>Histórico de Manutenção</th>
-                      <th>Número de Série</th>
-                      <th>Categoria</th>
-                      <th>Local do Patrimônio</th>
-                      <th>Ações</th>
-                    </tr>
-                  </thead>
-                  <tbody id="patrimonioTableBody"></tbody>
-                </table>
-              </div>
-            </div>
+        <div className="col-md-12">
+          <div className="table-responsive">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Nome</th>
+                  <th>Descrição</th>
+                  <th>Histórico de Manutenção</th>
+                  <th>Número de Série</th>
+                  <th>Categoria</th>
+                  <th>Local do Patrimônio</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                {patrimonios.map((patrimonio: Patrimonios) => (
+                  <tr key={patrimonio.id}>
+                    <td>{patrimonio.id}</td>
+                    <td>{patrimonio.nome_patrimonio}</td>
+                    <td>{patrimonio.descricao}</td>
+                    <td>{patrimonio.historico_manutencao}</td>
+                    <td>{patrimonio.nr_serie}</td>
+                    <td>{patrimonio.id_categoria}</td>
+                    <td>{patrimonio.id_local_patrimonio}</td>
+                    <td>
+                    <button onClick={() => handleEditarPatrimonio(patrimonio)}>Editar</button>
+                      <button onClick={() => excluirPatrimonio(patrimonio.id)}>Excluir</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
+        </div>
+      </div>
         </div>
       </main>
     </div>
