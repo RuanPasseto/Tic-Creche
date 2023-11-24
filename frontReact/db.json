@@ -1,66 +1,31 @@
 {
   "users": [
     {
-      "id": 1,
-      "username": "admin",
-      "password": "123"
-    },
-    {
-      "id": 2,
-      "username": "user",
-      "password": "123"
-    },
-    {
-      "id": 3,
-      "username": "dfpires",
-      "password": "123"
+      "nome": "Ruan Passeto",
+      "cargo": "",
+      "email": "ruanpasseto@gmail.com",
+      "senha": "123",
+      "id": 4
     }
   ],
   "patrimonios": [
     {
-      "id": 1,
-      "nome_patrimonio": "Mesa",
-      "descricao": "mesa para refeitorio",
-      "historico_manutencao": "Histórico do Patrimônio 1",
-      "nr_serie": "12345",
-      "id_categoria": 2,
-      "id_local_patrimonio": 1
+      "nome_patrimonio": "ama",
+      "descricao": "apartamento Top",
+      "historico_manutencao": "365121",
+      "nr_serie": "6984545",
+      "nome_categoria": "Categoria 1",
+      "nome_local": "Local 1",
+      "id": 3
     },
     {
-      "id": 2,
-      "nome_patrimonio": "Cadeira",
-      "descricao": "Cadeira para aula",
-      "historico_manutencao": "Histórico do Patrimônio 1",
-      "nr_serie": "12345",
-      "id_categoria": 1,
-      "id_local_patrimonio": 1
-    },
-    {
-      "id": 3,
-      "nome_patrimonio": "Lousa",
-      "descricao": "Lousa para sala 3",
-      "historico_manutencao": "Histórico do Patrimônio 1",
-      "nr_serie": "12345",
-      "id_categoria": 1,
-      "id_local_patrimonio": 1
-    },
-    {
-      "id": 4,
-      "nome_patrimonio": "Geladeira",
-      "descricao": "Geladeira para o refeitorio",
-      "historico_manutencao": "Histórico do Patrimônio 1",
-      "nr_serie": "12345",
-      "id_categoria": 1,
-      "id_local_patrimonio": 1
-    },
-    {
-      "id": 5,
-      "nome_patrimonio": "Banco",
-      "descricao": "Descrição do Patrimônio 1",
-      "historico_manutencao": "Histórico do Patrimônio 1",
-      "nr_serie": "12345",
-      "id_categoria": 1,
-      "id_local_patrimonio": 1
+      "nome_patrimonio": "sdf",
+      "descricao": "ADF\\DF",
+      "historico_manutencao": "Nenhum",
+      "nr_serie": "6984545",
+      "nome_categoria": "Categoria 2",
+      "nome_local": "Local 2",
+      "id": 4
     }
   ],
   "categorias": [
@@ -82,5 +47,6 @@
       "id": 2,
       "nome_local": "Local 2"
     }
-  ]
+  ],
+  "empresa": []
 }

@@ -1,17 +1,17 @@
 'use client'
 
 import { useState } from "react";
-import { useRouter } from "next/navigation"; // Importe o useRouter
+import { useRouter } from "next/navigation"; 
 import Image from "next/image";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const router = useRouter(); // Crie um objeto router
+  const router = useRouter(); 
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const resp = await fetch(`http://localhost:3001/users?username=${username}`, {
+    const resp = await fetch(`http://localhost:3000/users?username=${username}`, {
       method: 'GET',
     })
     .then(resposta => resposta.json());
@@ -24,8 +24,7 @@ export default function Login() {
       if (resp[0].password !== password) {
         alert('Usuário / senha incorretos');
       } else {
-        // Senha correta, redirecione para a página "patrimonios"
-        router.push("/patrimonio"); // Use o router para redirecionar
+        router.push("/patrimonio"); 
       }
     }
   };
