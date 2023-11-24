@@ -4,14 +4,14 @@ import { useRouter } from 'next/navigation';
 interface NavItemProps {
   title: string;
   icon: React.ElementType;
-  route: string; // Nova prop para especificar a rota
+  route: string; 
 }
 
 export function NavItem({ title, icon: Icon, route }: NavItemProps) {
   const router = useRouter();
 
   const handleNavItemClick = () => {
-    router.push(route); // Use a rota especificada na prop "route"
+    router.push(route); 
   };
 
   return (

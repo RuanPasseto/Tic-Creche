@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { Sidebar } from '@/components/SideBar';
+import { NavBar } from '@/components/SideBar';
+
 
 interface Patrimonios {
   id: number;
@@ -55,7 +56,7 @@ function Patrimonio() {
   async function carregarPatrimonios() {
     console.log('aqui')
     try {
-      const response = await fetch('http://localhost:3001/patrimonios');
+      const response = await fetch('http://localhost:3000/patrimonios');
       if (response.ok) {
         const data = await response.json();
         console.log('patrimonio',data)
@@ -70,7 +71,7 @@ function Patrimonio() {
 
   async function carregarCategorias() {
     try {
-      const response = await fetch('http://localhost:3001/categorias');
+      const response = await fetch('http://localhost:3000/categorias');
       if (response.ok) {
         const data = await response.json();
         setCategorias(data);
@@ -84,7 +85,7 @@ function Patrimonio() {
 
   async function carregarLocaisPatrimonio() {
     try {
-      const response = await fetch('http://localhost:3001/locais_patrimonio');
+      const response = await fetch('http://localhost:3000/locais_patrimonio');
       if (response.ok) {
         const data = await response.json();
         setLocaisPatrimonio(data);
@@ -101,7 +102,7 @@ function Patrimonio() {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:3001/patrimonios', {
+      const response = await fetch('http://localhost:3000/patrimonios', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -133,7 +134,7 @@ function Patrimonio() {
   async function excluirPatrimonio(id: number) {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:3001/patrimonios/${id}`, {
+      const response = await fetch(`http://localhost:3000/patrimonios/${id}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -172,7 +173,7 @@ function Patrimonio() {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:3001/patrimonios/${patrimonioEmEdicao?.id}`, {
+      const response = await fetch(`http://localhost:3000/patrimonios/${patrimonioEmEdicao?.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -208,32 +209,16 @@ function Patrimonio() {
 
   return (
     <>
+    <NavBar />
     <div className='bg-neutral-200 min-h-full' onLoad={carregarPatrimonios}>
 
-
-      
-      <header className='bg-sky-500' >
-        <span className="navbar-text p-0">
-          <div className="row-flex min-h-full">
-            <div className="col-12 p-0">
-            <Image src="/logo.jpg" alt="logo" width={79.75} height={76.75} className="bg-blend-color-burn"/>
-            </div>
-          </div>
-        </span>
-      </header>
-
-      <nav className="bg-sky-500 w-1/2 rounded-r-3xl h-16" >
-        <button className="navbar-toggler" type="button" onClick={closeSideDrawer}>
-          <span className="navbar-toggler-icon"></span>
-        </button>
-      </nav>
       <main className="container col-md-10 mb-4 bg-neutral-200">
         <div className=" " >
           <div className="flex items-center">
             <div className="col-md-8 justify-center">
               <form id="patrimonioForm" onSubmit={cadastrarPatrimonio}>
-                <div className="form-group justify-center flex flex-col">
-                  <h3 className='text-3xl '>Cadastro de Patrimônio</h3>
+                <div className="form-group justify-center flex flex-col mt-32">
+                  <h3 className='text-3xl '>Editar Patrimônio</h3>
                   <label htmlFor="nome_patrimonio">Nome do Patrimônio:</label>
                   <input
                     type="text"

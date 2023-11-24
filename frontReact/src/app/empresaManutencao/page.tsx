@@ -3,66 +3,55 @@
 import React, { useState, useEffect} from 'react';
 import { NavBar } from '@/components/SideBar';
 
-interface Patrimonios {
+interface Empresa {
   id: number;
-  nome_patrimonio: string;
-  descricao: string;
-  historico_manutencao: string;
-  nr_serie: string;
-  nome_categoria: string;
-  nome_local: string;
-}
-
-type Categoria = {
-  id: number;
-  nome_categoria: string;
-};
-
-type Patrimonio ={
-  id: number;
-  nome_local: string
+  nome_Empresa: string;
+  tecnico: string;
+  phone: string;
+  email: string;
+  rua: string;
+  numero: number;
+  bairro: string;
+  cidade: string
 }
 
 
-function Patrimonio() {
-  const [patrimonios, setPatrimonios] = useState<Patrimonios[]>([]);
-  const [categorias, setCategorias] = useState<Categoria[]>([]);
-  const [locaisPatrimonio, setLocaisPatrimonio] = useState<Patrimonio[]>([]);
+
+function EmpresaManutencao() {
+  const [empresa, setEmpresa] = useState<Empresa[]>([]);
   const [formVisible, setFormVisible] = useState(false);
   const [dadosCarregados, setDadosCarregados] = useState(false);
-  const [patrimonioEmEdicao, setPatrimonioEmEdicao] = useState<Patrimonios | null>(null);
-  const [patrimonioFormData, setPatrimonioFormData] = useState({
-    nome_patrimonio: '',
-    descricao: '',
-    historico_manutencao: '',
-    nr_serie: '',
-    nome_categoria: '',
-    nome_local: '',
+  const [empresaEmEdicao, setEmpresaEmEdicao] = useState<Empresa | null>(null);
+  const [empresaFormData, setEmpresaFormData] = useState({
+  
+    nome_Empresa: '',
+    tecnico: '',
+    phone: '',
+    email: '',
+    rua: '',
+    numero: '',
+    bairro: '',
+    cidade: '',
   });
 
-  function atualizarPatrimonioEmEdicao(patrimonio: Patrimonios) {
-    setPatrimonioEmEdicao(patrimonio);
-  }
 
   useEffect(() => {
     async function carregarDados() {
-      await carregarCategorias();
-      await carregarLocaisPatrimonio();
-      await carregarPatrimonios()
+      await carregarEmpresa()
       setDadosCarregados(true);
     }
 
     carregarDados();
   }, []);
 
-  async function carregarPatrimonios() {
+  async function carregarEmpresa() {
     console.log('aqui')
     try {
-      const response = await fetch('http://localhost:3000/patrimonios');
+      const response = await fetch('http://localhost:3000/empresa');
       if (response.ok) {
         const data = await response.json();
         console.log('patrimonio',data)
-        setPatrimonios(data);
+        setEmpresa(data);
       } else {
         console.error('Erro ao carregar patrimônios:', response);
       }
@@ -71,73 +60,46 @@ function Patrimonio() {
     }
   }
 
-  async function carregarCategorias() {
-    try {
-      const response = await fetch('http://localhost:3000/categorias');
-      if (response.ok) {
-        const data = await response.json();
-        setCategorias(data);
-      } else {
-        console.error('Erro ao carregar categorias:', response);
-      }
-    } catch (error) {
-      console.error('Erro ao carregar categorias:', error);
-    }
-  }
-  
-
-  async function carregarLocaisPatrimonio() {
-    try {
-      const response = await fetch('http://localhost:3000/locais_patrimonio');
-      if (response.ok) {
-        const data = await response.json();
-        setLocaisPatrimonio(data);
-      } else {
-        console.error('Erro ao carregar locais de patrimônio:', response);
-      }
-    } catch (error) {
-      console.error('Erro ao carregar locais de patrimônio:', error);
-    }
-  }
-
-  async function cadastrarPatrimonio(event: any) {
+  async function cadastrarEmpresa(event: any) {
     event.preventDefault();
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:3000/patrimonios', {
+      const response = await fetch('http://localhost:3000/empresa', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(patrimonioFormData),
+        body: JSON.stringify(empresaFormData),
       });
 
       if (response.ok) {
-        alert('Patrimônio cadastrado com sucesso!');
-        setPatrimonioFormData({
-          nome_patrimonio: '',
-          descricao: '',
-          historico_manutencao: '',
-          nr_serie: '',
-          nome_categoria: '',
-          nome_local: '',
+        alert('Empresa cadastrado com sucesso!');
+        setEmpresaFormData({
+          nome_Empresa: '',
+          tecnico: '',
+          phone: '',
+          email: '',
+          rua: '',
+          numero: '',
+          bairro: '',
+          cidade: '',
         });
-        carregarPatrimonios();
+        carregarEmpresa();
       } else {
         const error = await response.json();
-        alert('Erro ao cadastrar patrimônio: ' + error.error);
+        alert('Erro ao cadastrar empresa: ' + error.error);
       }
     } catch (error) {
-      console.error('Erro ao cadastrar patrimônio:', error);
+      console.error('Erro ao cadastrar empresa:', error);
     }
   }
 
-  async function excluirPatrimonio(id: number) {
+  async function excluirEmpresa(id: number) {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:3000/patrimonios/${id}`, {
+      const response = await fetch(`http://localhost:3000/empresa/${id}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -146,7 +108,7 @@ function Patrimonio() {
   
       if (response.ok) {
         alert('Patrimônio excluído com sucesso!');
-        carregarPatrimonios(); 
+        carregarEmpresa(); 
       } else {
         const error = await response.json();
         alert('Erro ao excluir patrimônio: ' + error.error);
@@ -156,120 +118,125 @@ function Patrimonio() {
     }
   }
 
-  function handleEditarPatrimonio(patrimonio: Patrimonios) {
-    setPatrimonioEmEdicao(patrimonio);
+  function handleEditarEmpresa(empresa: Empresa) {
+    setEmpresaEmEdicao(empresa);
     setFormVisible(true);
   }
 
 
   function handleChange(event: any) {
     const { name, value } = event.target;
-    setPatrimonioFormData((prevData) => ({
+    setEmpresaFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   }
 
-  function closeSideDrawer(event: any): void {
-    throw new Error('Function not implemented.');
-  }
-
   return (
     <>
     <NavBar/>
-    <div onLoad={carregarPatrimonios}>
+    <div onLoad={carregarEmpresa}>
       <main className="container col-md-10 mb-4 bg-neutral-200 ">
           <div className="flex items-center">
             <div className="col-md-8 justify-center ml-8">
-              <form id="patrimonioForm" onSubmit={cadastrarPatrimonio}>
+              <form id="patrimonioForm" onSubmit={cadastrarEmpresa}>
                 <div className="form-group justify-center flex flex-col mt-32">
-                  <h3 className='text-3xl '>Cadastro de Patrimônio</h3>
-                  <label htmlFor="nome_patrimonio">Nome do Patrimônio:</label>
+                  <h3 className='text-3xl '>Cadastro de Empresa</h3>
+                  <label htmlFor="nome_patrimonio">Nome da empresa:</label>
                   <input
                     type="text"
                     className="px-[6] py-[12] bg-slate-300 rounded-md hover:bg-slate-400"
                     id="nome_patrimonio"
                     name="nome_patrimonio" 
-                    value={patrimonioFormData.nome_patrimonio} 
+                    value={empresaFormData.nome_Empresa} 
                     onChange={handleChange} 
                     required
                   />
 
-                  <label htmlFor="descricao">Descrição:</label>
+                  <label htmlFor="descricao">Tecnico Responsavel:</label>
                   <input
                     type="text"
                     className="px-[6] py-[12] bg-slate-300 rounded-md hover:bg-slate-400"
                     id="descricao"
                     name="descricao"
-                    value={patrimonioFormData.descricao}
+                    value={empresaFormData.tecnico}
                     onChange={handleChange}
                     required
                   />
   
-                  <label htmlFor="historico_manutencao">Histórico de Manutenção:</label>
+                  <label htmlFor="historico_manutencao">Telefone:</label>
                   <input
                     type="text"
                     className="px-[6] py-[12] bg-slate-300 rounded-md hover-bg-slate-400"
                     id="historico_manutencao"
                     name="historico_manutencao"
-                    value={patrimonioFormData.historico_manutencao}
+                    value={empresaFormData.phone}
                     onChange={handleChange}
                     required
                   />
 
-                  <label htmlFor="nr_serie">Número de Série:</label>
+                  <label htmlFor="nr_serie">Email:</label>
+                  <input
+                    type="email"
+                    className="px-[6] py-[12] bg-slate-300 rounded-md hover-bg-slate-400"
+                    id="nr_serie"
+                    name="nr_serie"
+                    value={empresaFormData.email}
+                    onChange={handleChange}
+                    required
+                  />
+
+                  <label htmlFor="nr_serie">Rua:</label>
                   <input
                     type="text"
                     className="px-[6] py-[12] bg-slate-300 rounded-md hover-bg-slate-400"
                     id="nr_serie"
                     name="nr_serie"
-                    value={patrimonioFormData.nr_serie}
+                    value={empresaFormData.rua}
                     onChange={handleChange}
                     required
                   />
 
-                  <label htmlFor="categoria">Categoria:</label>
-                  <select
-                    className="form-select"
-                    id="categoria"
-                    name="nome_categoria" // Altere para "nome_categoria" em vez de "categoria"
-                    value={patrimonioFormData.nome_categoria} // Certifique-se de usar "nome_categoria"
+                  <label htmlFor="nr_serie">Número:</label>
+                  <input
+                    type="number"
+                    className="px-[6] py-[12] bg-slate-300 rounded-md hover-bg-slate-400"
+                    id="nr_serie"
+                    name="nr_serie"
+                    value={empresaFormData.numero}
                     onChange={handleChange}
                     required
-                  >
-                    <option value="" disabled selected hidden>
-                      Selecione a categoria
-                    </option>
-                    {categorias.map((categoria) => (
-                      <option key={categoria.id} value={categoria.nome_categoria}>
-                        {categoria.nome_categoria}
-                      </option>
-                    ))}
-                  </select>
+                  />
 
-                  <label htmlFor="local_patrimonio">Local de Patrimônio:</label>
-                  <select
-                    className="form-select"
-                    id="local_patrimonio"
-                    name="nome_local" // Altere para "nome_local" em vez de "local_patrimonio"
-                    value={patrimonioFormData.nome_local} // Certifique-se de usar "nome_local"
+                  <label htmlFor="nr_serie">Bairro:</label>
+                  <input
+                    type="text"
+                    className="px-[6] py-[12] bg-slate-300 rounded-md hover-bg-slate-400"
+                    id="nr_serie"
+                    name="nr_serie"
+                    value={empresaFormData.bairro}
                     onChange={handleChange}
                     required
-                  >
-                    <option value="" disabled selected hidden>
-                      Selecione o local de patrimônio
-                    </option>
-                    {locaisPatrimonio.map((local) => (
-                      <option key={local.id} value={local.nome_local}>
-                        {local.nome_local}
-                      </option>
-                    ))}
-                  </select>
+                  />
+
+                  <label htmlFor="nr_serie">Cidade:</label>
+                  <input
+                    type="text"
+                    className="px-[6] py-[12] bg-slate-300 rounded-md hover-bg-slate-400"
+                    id="nr_serie"
+                    name="nr_serie"
+                    value={empresaFormData.cidade}
+                    onChange={handleChange}
+                    required
+                  />
+
+
+                </div>
+                
                 <button type="submit" className="bg-sky-500 mt-4 rounded-lg p-2 text-zinc-50 hover:bg-sky-700" 
                 id="salvarButton">
                   Cadastrar
                 </button>
-              </div>
               </form>
             </div>
           </div>
@@ -283,22 +250,28 @@ function Patrimonio() {
                       ID
                     </th>
                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Nome
+                      Nome da Empresa
                     </th>
                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Descrição
+                      Tecnico
                     </th>
                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Histórico de Manutenção
+                      Telefone
                     </th>
                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Número de Série
+                      email
                     </th>
                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Categoria
+                      Rua
                     </th>
                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Local do Patrimônio
+                      Numero
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Bairro
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Cidade
                     </th>
                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Ações
@@ -306,34 +279,40 @@ function Patrimonio() {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {patrimonios.map((patrimonio: Patrimonios) => (
-                    <tr key={patrimonio.id}>
+                  {empresa.map((empresa: Empresa) => (
+                    <tr key={empresa.id}>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        {patrimonio.id}
+                        {empresa.id}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        {patrimonio.nome_patrimonio}
+                        {empresa.nome_Empresa}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        {patrimonio.descricao}
+                        {empresa.tecnico}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        {patrimonio.historico_manutencao}
+                        {empresa.phone}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        {patrimonio.nr_serie}
+                        {empresa.email}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        {patrimonio.nome_categoria}
+                        {empresa.rua}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        {patrimonio.nome_local}
+                        {empresa.numero}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <button className="bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-700" onClick={() => handleEditarPatrimonio(patrimonio)}>
+                        {empresa.bairro}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        {empresa.cidade}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <button className="bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-700" onClick={() => handleEditarEmpresa(empresa)}>
                           Editar
                         </button>
-                        <button className="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-700" onClick={() => excluirPatrimonio(patrimonio.id)}>
+                        <button className="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-700" onClick={() => excluirEmpresa(empresa.id)}>
                           Excluir
                         </button>
                       </td>
@@ -350,4 +329,4 @@ function Patrimonio() {
   );
 }
 
-export default Patrimonio;
+export default EmpresaManutencao;
