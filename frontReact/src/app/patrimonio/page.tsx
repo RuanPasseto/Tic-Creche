@@ -58,7 +58,7 @@ function Patrimonio() {
   async function carregarPatrimonios() {
     console.log('aqui')
     try {
-      const response = await fetch('http://localhost:3000/patrimonios');
+      const response = await fetch('http://localhost:5500/patrimony');
       if (response.ok) {
         const data = await response.json();
         console.log('patrimonio',data)
@@ -73,7 +73,7 @@ function Patrimonio() {
 
   async function carregarCategorias() {
     try {
-      const response = await fetch('http://localhost:3000/categorias');
+      const response = await fetch('http://localhost:5500/category');
       if (response.ok) {
         const data = await response.json();
         setCategorias(data);
@@ -88,7 +88,7 @@ function Patrimonio() {
 
   async function carregarLocaisPatrimonio() {
     try {
-      const response = await fetch('http://localhost:3000/locais_patrimonio');
+      const response = await fetch('http://localhost:5500/local-patrimony');
       if (response.ok) {
         const data = await response.json();
         setLocaisPatrimonio(data);
@@ -105,7 +105,7 @@ function Patrimonio() {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:3000/patrimonios', {
+      const response = await fetch('http://localhost:5500/patrimony', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -137,7 +137,7 @@ function Patrimonio() {
   async function excluirPatrimonio(id: number) {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:3000/patrimonios/${id}`, {
+      const response = await fetch(`http://localhost:5500/patrimony/${id}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
