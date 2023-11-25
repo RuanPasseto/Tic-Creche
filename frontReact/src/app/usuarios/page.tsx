@@ -29,7 +29,7 @@ export default function CadastroFuncionario() {
     event.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:3000/users', {
+      const response = await fetch('http://localhost:5500/users', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ export default function CadastroFuncionario() {
         return;
       }
 
-      const response = await fetch(`http://localhost:3000/users/${id}`, {
+      const response = await fetch(`http://localhost:5500/users/${id}`, {
         method: 'DELETE',
       });
 
@@ -78,7 +78,7 @@ export default function CadastroFuncionario() {
 
   const fetchFuncionariosCadastrados = async () => {
     try {
-      const response = await fetch('http://localhost:3000/users');
+      const response = await fetch('http://localhost:5500/users');
       if (response.ok) {
         const data = await response.json();
         setFuncionariosCadastrados(data);
