@@ -44,10 +44,10 @@ function EmpresaManutencao() {
     carregarDados();
   }, []);
 
-  async function carregarEmpresa() {
+ async function carregarEmpresa() {
     console.log('aqui')
     try {
-      const response = await fetch('http://localhost:3000/empresa');
+      const response = await fetch('http://localhost:5500/maintenance-companies');
       if (response.ok) {
         const data = await response.json();
         console.log('patrimonio',data)
@@ -65,7 +65,7 @@ function EmpresaManutencao() {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:3000/empresa', {
+      const response = await fetch('http://localhost:5500/maintenance-companies', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -99,7 +99,7 @@ function EmpresaManutencao() {
   async function excluirEmpresa(id: number) {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:3000/empresa/${id}`, {
+      const response = await fetch(`http://localhost:5500/maintenance-companies/${id}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
