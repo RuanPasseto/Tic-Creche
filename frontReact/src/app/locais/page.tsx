@@ -18,9 +18,9 @@ const CadastroLocal: React.FC = () => {
     carregarLocaisPatrimonio();
   }, []);
 
-  const carregarLocaisPatrimonio = async () => {
+   const carregarLocaisPatrimonio = async () => {
     try {
-      const response = await fetch('http://localhost:3000/locais_patrimonio');
+      const response = await fetch('http://localhost:5500/local-patrimony');
       if (response.ok) {
         const data = await response.json();
         setLocaisPatrimonio(data);
@@ -35,7 +35,7 @@ const CadastroLocal: React.FC = () => {
   async function excluirLocal(id: number) {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:3000/locais_patrimonio/${id}`, {
+      const response = await fetch(`http://localhost:5500/local-patrimony/${id}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -63,7 +63,7 @@ const CadastroLocal: React.FC = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:3000/locais_patrimonio', {
+      const response = await fetch('http://localhost:5500/local-patrimony', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
